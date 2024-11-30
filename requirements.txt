@@ -1,0 +1,26 @@
+# Core dependencies
+pyyaml>=6.0.1        # YAML file handling for docker-compose files
+python-dotenv>=1.0.0  # Environment variable management
+pyrsync>=0.5.0       # Efficient file synchronization
+tenacity>=8.2.3      # Retry logic for robust operations
+psutil>=5.9.5        # System and process utilities
+click>=8.1.7         # Command line interface creation
+rich>=13.5.2         # Rich text and formatting in terminal
+tqdm>=4.66.1         # Progress bars for operations
+schedule>=1.2.0      # Scheduling automated backups
+cryptography>=41.0.3  # Encryption for sensitive data
+requests>=2.31.0     # HTTP requests for API interactions
+docker>=6.1.3        # Docker API interactions
+paramiko>=3.3.1      # SSH protocol implementation
+
+# Development dependencies
+black>=23.7.0        # Code formatting
+pytest>=7.4.0        # Testing framework
+pylint>=2.17.5       # Code linting
+coverage>=7.3.0      # Code coverage reporting
+pre-commit>=3.3.3    # Git hooks for code quality
+
+# Optional dependencies
+humanize>=4.7.0      # Human-readable data sizes
+tabulate>=0.9.0      # Pretty-print tabular data
+colorama>=0.4.6      # Colored terminal output
