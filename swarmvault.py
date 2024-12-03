@@ -12,7 +12,7 @@ import shutil
 import yaml
 
 class DockerBackupManager:
-    def __init__(self, backup_dir="/opt/docker-backups", remote_host=None):
+    def __init__(self, backup_dir="backups", remote_host=None):
         self.backup_dir = Path(backup_dir)
         self.remote_host = remote_host
         self.timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -209,7 +209,7 @@ class DockerBackupManager:
 
 def main():
     parser = argparse.ArgumentParser(description="Docker Environment Backup Tool")
-    parser.add_argument("--backup-dir", default="/opt/docker-backups",
+    parser.add_argument("--backup-dir", default="backups",
                       help="Local backup directory")
     parser.add_argument("--remote-host",
                       help="Remote host for backup operations")
