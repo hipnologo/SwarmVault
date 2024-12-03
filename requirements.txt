@@ -1,7 +1,6 @@
 # Core dependencies
 pyyaml>=6.0.1        # YAML file handling for docker-compose files
 python-dotenv>=1.0.1  # Environment variable management
-pyrsync2>=0.2.6       # Efficient file synchronization
 tenacity>=8.2.3      # Retry logic for robust operations
 psutil>=5.9.5        # System and process utilities
 click>=8.1.7         # Command line interface creation
