@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  swarmvault:
+    image: hipnologo/swarmvault:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      # Optional: Add resource constraints
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    environment:
+      # Define any required environment variables here
+      # Example:
+      # BACKUP_DIR: "/app/backups"
+      # REMOTE_HOST: "user@remote_host"
+      # SYNC_PATH: "/remote/backup/path"
+    volumes:
+      # Mount the Docker socket to allow Docker CLI commands within the container
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount a host directory to store backups persistently
+      - /path/to/local/backups:/app/backups
+    networks:
+      - backup_network
+    command: ["python", "swarmvault.py", "--backup-dir", "/app/backups", "--remote-host", "remote_host", "--sync-to", "/remote/backup/path"]
+
+networks:
+  backup_network:
+    driver: overlay
