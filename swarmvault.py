@@ -20,12 +20,21 @@ class DockerBackupManager:
         self.setup_logging()
 
     def setup_logging(self):
+        """
+        Sets up logging for the backup process.
+        Ensures the backup directory exists before configuring log handlers.
+        """
+        # Ensure the backup directory exists
+        self.backup_dir.mkdir(parents=True, exist_ok=True)
+
+        log_file = self.backup_dir / "backup.log"
+
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             handlers=[
                 logging.StreamHandler(),
-                logging.FileHandler(f"{self.backup_dir}/backup.log")
+                logging.FileHandler(log_file)
             ]
         )
         self.logger = logging.getLogger(__name__)
@@ -114,19 +123,19 @@ class DockerBackupManager:
                 ])
 
                 # Create tar archive of volume
-                volume_backup = volumes_dir / f"{volume}.tar"
+                volume_backup = volumes_dir / f"{volume}.tar.gz"
+                self.execute_command([
+                    "docker", "exec", backup_container, "tar", "-czf", f"/backup/{volume}.tar.gz", "/source"
+                ], shell=False)
+
+                # Copy the tarball from the container to the host
                 self.execute_command([
                     "docker", "cp",
-                    f"{backup_container}:/source/.",
-                    str(volumes_dir / volume)
+                    f"{backup_container}:/backup/{volume}.tar.gz",
+                    str(volume_backup)
                 ])
 
-                # Create tarfile
-                with tarfile.open(volume_backup, "w:gz") as tar:
-                    tar.add(str(volumes_dir / volume), arcname=volume)
-
                 # Cleanup
-                shutil.rmtree(str(volumes_dir / volume))
                 self.execute_command(["docker", "rm", "-f", backup_container])
                 
             except Exception as e:
@@ -228,4 +237,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
